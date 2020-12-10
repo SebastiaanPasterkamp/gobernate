@@ -24,11 +24,12 @@ import (
 // run a golang service in Kubernetes. This code is roughly based on:
 // https://blog.gopheracademy.com/advent-2017/kubernetes-ready-service/
 type Gobernate struct {
+	// Router is the mux router, so extra end-points can be added.
+	Router   *mux.Router
 	port     string
 	info     version.Info
 	listener net.Listener
 	srv      *http.Server
-	router   *mux.Router
 	shutdown chan bool
 	isReady  *atomic.Value
 }
@@ -57,7 +58,7 @@ func New(port, name, release, commit, buildTime string) *Gobernate {
 		info:     info,
 		listener: listener,
 		srv:      srv,
-		router:   router,
+		Router:   router,
 		shutdown: shutdown,
 		isReady:  isReady,
 	}

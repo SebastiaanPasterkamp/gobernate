@@ -6,13 +6,22 @@ To use the `gobernate` package to Kubernetes enable your service simply use:
 
 ```go
 import (
+	...
+	"fmt"
 	"github.com/SebastiaanPasterkamp/gobernate"
+	"net/http"
+	...
 )
 
 func main() {
 	g := gobernate.New("8080", "example", "1.0.0", "commit-sha", "build-time")
 
 	shutdown := g.Launch()
+
+	g.Router.HandleFunc("/hello", func(w http.ResponseWriter, _ *http.Request) {
+		fmt.Fprint(w, "Hello! Your request was processed.")
+	})
+
 	g.Ready()
 	<-shutdown
 }
