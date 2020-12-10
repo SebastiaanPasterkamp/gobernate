@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"gobernate"
 	"gobernate/version"
+	"net/http"
 
 	"os"
 
@@ -24,6 +26,11 @@ func main() {
 	)
 
 	shutdown := g.Launch()
+
+	g.Router.HandleFunc("/hello", func(w http.ResponseWriter, _ *http.Request) {
+		fmt.Fprint(w, "Hello! Your request was processed.")
+	})
+
 	g.Ready()
 	<-shutdown
 }
