@@ -1,0 +1,95 @@
+---
+kind: pipeline
+type: docker
+name: Test
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: unit-test
+    image: golang:1.15-alpine
+    volumes:
+      - name: apk-cache
+        path: /etc/apk/cache
+      - name: golang-cache
+        path: /root/go/pkg/mod/cache
+    commands:
+      - |-
+        apk add \
+            build-base \
+            gcc
+      - |-
+        go test \
+          -coverprofile cover.out \
+          ./...
+
+  - name: coverage
+    image: golang:1.15-alpine
+    commands:
+      - |-
+        go tool cover \
+          -func cover.out
+    depends_on:
+      - unit-test
+
+  - name: prep-build-test
+    image: golang:1.15-alpine
+    when:
+      event:
+        exclude:
+        - tag
+    commands:
+      - apk add git
+      - git fetch --tags
+      - echo 'GIT_TAG='$(git describe --tags || echo 'initial') >> .env
+
+  - name: build-test
+    image: docker
+    volumes:
+      - name: socket
+        path: /var/run/docker.sock
+    when:
+      event:
+        exclude:
+        - tag
+    commands:
+      - . .env
+      - |-
+        docker build \
+          -t gobernate:unstable \
+          -t gobernate:$${GIT_TAG} .
+    depends_on:
+      - prep-build-test
+
+  - name: build-production
+    image: docker
+    volumes:
+      - name: socket
+        path: /var/run/docker.sock
+    when:
+      event:
+      - tag
+    commands:
+      - |-
+        docker build \
+          -t gobernate:stable \
+          -t gobernate:${DRONE_TAG} .
+
+volumes:
+  - name: apk-cache
+    host:
+      path: /var/cache/drone/apk
+  - name: golang-cache
+    host:
+      path: /var/cache/drone/golang
+  - name: socket
+    host:
+      path: /var/run/docker.sock
+
+---
+kind: signature
+hmac: 97397c3ed9e6fad61e8c642e4b456eaa1ee033adeedd3a4a8ff04032cbf841d9
+
+...
