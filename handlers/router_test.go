@@ -20,7 +20,11 @@ var testRouterCases = []struct {
 	{"GET /version", "/version", "GET", http.StatusOK, "application/json"},
 	{"POST /version", "/version", "POST", http.StatusMethodNotAllowed, ""},
 	{"GET /health", "/health", "GET", http.StatusOK, ""},
+	{"POST /health", "/health", "POST", http.StatusMethodNotAllowed, ""},
 	{"GET /readiness", "/readiness", "GET", http.StatusOK, ""},
+	{"POST /readiness", "/readiness", "POST", http.StatusMethodNotAllowed, ""},
+	{"GET /metrics", "/metrics", "GET", http.StatusOK, "text/plain; version=0.0.4; charset=utf-8"},
+	{"POST /metrics", "/metrics", "POST", http.StatusMethodNotAllowed, ""},
 	{"GET /nonexistent", "/nonexistent", "GET", http.StatusNotFound, "text/plain; charset=utf-8"},
 }
 
