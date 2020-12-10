@@ -74,7 +74,7 @@ steps:
     commands:
       - |-
         docker build \
-          -t gobernate:stable \
+          -t gobernate:latest \
           -t gobernate:${DRONE_TAG} .
 
 volumes:
@@ -90,6 +90,6 @@ volumes:
 
 ---
 kind: signature
-hmac: 97397c3ed9e6fad61e8c642e4b456eaa1ee033adeedd3a4a8ff04032cbf841d9
+hmac: 11371e40753e6ee056d779fde5d53b9253ed648a23eb1409df42fbcae020c120
 
 ...
