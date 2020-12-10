@@ -25,3 +25,4 @@ The `gobernate` http service provides:
 * `GET /readiness` to signal when the service is ready. Expects `Ready()` to be
   called before signaling `http.StatusOK`, and will report if the service is
   already shutting down.
+* `GET /metrics` to return Prometheus formatted metric data.
