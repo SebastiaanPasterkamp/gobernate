@@ -39,7 +39,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
     -ldflags="\
         -w -s \
         -X ${PROJECT}/version.Name=${PROJECT} \
-        -X ${PROJECT}/version.Release=$(git describe --exact-match --tags $(git log -n1 --pretty='%h')) \
+        -X ${PROJECT}/version.Release=$(git describe --tags --always) \
         -X ${PROJECT}/version.Commit=$(git rev-parse --verify HEAD) \
         -X ${PROJECT}/version.BuildTime=$(date -u -Iseconds)" \
     cmd/main.go
