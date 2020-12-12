@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"gobernate/version"
+	"github.com/SebastiaanPasterkamp/gobernate/version"
 
 	"encoding/json"
 	"net/http"

@@ -5,15 +5,15 @@
 package gobernate
 
 import (
-	"gobernate/handlers"
-	"gobernate/version"
-	"net"
-	"sync/atomic"
+	"github.com/SebastiaanPasterkamp/gobernate/handlers"
+	"github.com/SebastiaanPasterkamp/gobernate/version"
 
 	"context"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
+	"sync/atomic"
 	"syscall"
 
 	"github.com/gorilla/mux"
