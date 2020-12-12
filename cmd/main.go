@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"gobernate"
-	"gobernate/version"
-	"net/http"
+	"github.com/SebastiaanPasterkamp/gobernate"
+	"github.com/SebastiaanPasterkamp/gobernate/version"
 
+	"fmt"
+	"net/http"
 	"os"
 
 	log "github.com/sirupsen/logrus"

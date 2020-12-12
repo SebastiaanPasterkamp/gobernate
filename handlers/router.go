@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	mw "gobernate/middleware"
-	"gobernate/version"
+	mw "github.com/SebastiaanPasterkamp/gobernate/middleware"
+	"github.com/SebastiaanPasterkamp/gobernate/version"
 
 	"sync/atomic"
 

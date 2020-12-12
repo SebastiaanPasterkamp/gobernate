@@ -1,7 +1,7 @@
 package middleware_test
 
 import (
-	mw "gobernate/middleware"
+	mw "github.com/SebastiaanPasterkamp/gobernate/middleware"
 
 	"net/http"
 	"net/http/httptest"

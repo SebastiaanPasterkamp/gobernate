@@ -1,7 +1,7 @@
 package gobernate_test
 
 import (
-	"gobernate"
+	"github.com/SebastiaanPasterkamp/gobernate"
 
 	"net/http"
 	"testing"

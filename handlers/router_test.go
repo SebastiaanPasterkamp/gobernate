@@ -1,12 +1,12 @@
 package handlers_test
 
 import (
-	"gobernate/handlers"
-	"gobernate/version"
-	"sync/atomic"
+	"github.com/SebastiaanPasterkamp/gobernate/handlers"
+	"github.com/SebastiaanPasterkamp/gobernate/version"
 
 	"net/http"
 	"net/http/httptest"
+	"sync/atomic"
 	"testing"
 )
 
