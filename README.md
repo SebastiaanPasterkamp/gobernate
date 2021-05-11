@@ -1,3 +1,5 @@
+[![Build Status](https://dndrone.nl.eu.org/api/badges/SebastiaanPasterkamp/gobernate/status.svg)](https://dndrone.nl.eu.org/SebastiaanPasterkamp/gobernate)
+
 Package `gobernate` provides an easy HTTP Handler containing all end-points
 required to run a golang service in Kubernetes. This code is roughly based on:
 https://blog.gopheracademy.com/advent-2017/kubernetes-ready-service/
@@ -6,11 +8,10 @@ To use the `gobernate` package to Kubernetes enable your service simply use:
 
 ```go
 import (
-	...
 	"fmt"
-	"github.com/SebastiaanPasterkamp/gobernate"
 	"net/http"
-	...
+
+	"github.com/SebastiaanPasterkamp/gobernate"
 )
 
 func main() {
@@ -35,3 +36,8 @@ The `gobernate` http service provides:
   called before signaling `http.StatusOK`, and will report if the service is
   already shutting down.
 * `GET /metrics` to return Prometheus formatted metric data.
+
+# To do
+* Option to add a custom readiness callback.
+* Constructor with configuration struct.
+* Built in OpenTelemetry support.
