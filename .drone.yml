@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-type: docker
+type: kubernetes
 name: Test
 
 platform:
@@ -10,11 +10,6 @@ platform:
 steps:
   - name: unit-test
     image: golang:1.15-alpine
-    volumes:
-      - name: apk-cache
-        path: /etc/apk/cache
-      - name: golang-cache
-        path: /root/go/pkg/mod/cache
     commands:
       - |-
         apk add \
@@ -34,62 +29,37 @@ steps:
     depends_on:
       - unit-test
 
-  - name: prep-build-test
-    image: golang:1.15-alpine
-    when:
-      event:
-        exclude:
-        - tag
-    commands:
-      - apk add git
-      - git fetch --tags
-      - echo 'GIT_TAG='$(git describe --tags || echo 'initial') >> .env
-
   - name: build-test
-    image: docker
-    volumes:
-      - name: socket
-        path: /var/run/docker.sock
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: docker-registry.pikube.dev/gobernate
+      tags:
+        - unstable
+        - $${DRONE_BRANCH}
     when:
       event:
         exclude:
         - tag
-    commands:
-      - . .env
-      - |-
-        docker build \
-          -t gobernate:unstable \
-          -t gobernate:$${GIT_TAG} .
-    depends_on:
-      - prep-build-test
 
   - name: build-production
-    image: docker
-    volumes:
-      - name: socket
-        path: /var/run/docker.sock
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: docker-registry.pikube.dev/gobernate
+      auto_tag: true
+      mirror: docker-mirror.pikube.dev
     when:
       event:
       - tag
-    commands:
-      - |-
-        docker build \
-          -t gobernate:latest \
-          -t gobernate:${DRONE_TAG} .
-
-volumes:
-  - name: apk-cache
-    host:
-      path: /var/cache/drone/apk
-  - name: golang-cache
-    host:
-      path: /var/cache/drone/golang
-  - name: socket
-    host:
-      path: /var/run/docker.sock
-
 ---
 kind: signature
-hmac: 11371e40753e6ee056d779fde5d53b9253ed648a23eb1409df42fbcae020c120
+hmac: 932f6229d27b4cb4e0941721196c7062fd02ca9fcc4a614f92b1c7cfe9a6bafc
 
 ...
