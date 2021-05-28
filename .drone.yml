@@ -29,37 +29,48 @@ steps:
     depends_on:
       - unit-test
 
+---
+kind: pipeline
+type: kubernetes
+name: Image
+
+depends_on:
+  - Test
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
   - name: build-test
-    image: plugins/docker
+    image: docker-registry.pikube.dev:31443/drone-genuinetools-img
     settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      repo: docker-registry.pikube.dev/gobernate
+      registry: docker-registry.pikube.dev:31443
+      repo: gobernate
       tags:
-        - unstable
-        - $${DRONE_BRANCH}
+      - ${DRONE_BRANCH}
+      - unstable
+      cache: true
+      insecure_registry: true
     when:
       event:
         exclude:
-        - tag
+          - tag
 
   - name: build-production
-    image: plugins/docker
+    image: docker-registry.pikube.dev:31443/drone-genuinetools-img
     settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      repo: docker-registry.pikube.dev/gobernate
+      registry: docker-registry.pikube.dev:31443
+      repo: gobernate
       auto_tag: true
-      mirror: docker-mirror.pikube.dev
+      cache: true
+      insecure_registry: true
     when:
       event:
-      - tag
+        - tag
+
 ---
 kind: signature
-hmac: 932f6229d27b4cb4e0941721196c7062fd02ca9fcc4a614f92b1c7cfe9a6bafc
+hmac: f5398e36124f30a7ce737343add86bc9a29fd1cab54b03c4d05a976de62925ac
 
 ...
