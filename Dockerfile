@@ -1,10 +1,9 @@
 # See https://medium.com/@chemidy/create-the-smallest-and-secured-golang-docker-image-based-on-scratch-4752223b7324
-FROM golang:1.15-alpine AS builder
+FROM golang:1.15-stretch AS builder
 
 # Git is used for dependencies
-RUN apk update \
-    && apk add \
-        --no-cache \
+RUN apt-get update \
+    && apt-get install -y \
         git \
         ca-certificates
 
@@ -24,9 +23,8 @@ WORKDIR $GOPATH/src/gobernate/
 
 COPY go.mod go.sum ./
 
-RUN apk add \
-      build-base \
-      gcc \
+RUN apt-get install -y \
+      build-essential \
     && go mod download \
     && go mod verify
 

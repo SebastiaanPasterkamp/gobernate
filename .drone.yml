@@ -9,23 +9,16 @@ platform:
 
 steps:
   - name: unit-test
-    image: golang:1.15-alpine
+    image: golang:1.15-stretch
     commands:
-      - |-
-        apk add \
-            build-base \
-            gcc
-      - |-
-        go test \
-          -coverprofile cover.out \
-          ./...
+      - apt-get update
+      - apt-get install -y git build-essential
+      - go test -coverprofile cover.out ./...
 
   - name: coverage
-    image: golang:1.15-alpine
+    image: golang:1.15-stretch
     commands:
-      - |-
-        go tool cover \
-          -func cover.out
+      - go tool cover -func cover.out
     depends_on:
       - unit-test
 
@@ -71,6 +64,6 @@ steps:
 
 ---
 kind: signature
-hmac: f5398e36124f30a7ce737343add86bc9a29fd1cab54b03c4d05a976de62925ac
+hmac: ca8602a5ced1b7dfdfaa2ca6ed6436923bad083bdc958f52cb1164a872e131d2
 
 ...
