@@ -25,10 +25,10 @@ steps:
 ---
 kind: pipeline
 type: kubernetes
-name: Image
+name: Image Staging
 
 depends_on:
-  - Test
+- Test
 
 platform:
   os: linux
@@ -38,32 +38,42 @@ steps:
   - name: build-test
     image: docker-registry.pikube.dev:31443/drone-genuinetools-img
     settings:
-      registry: docker-registry.pikube.dev:31443
+      registry: docker-registry-service.docker-registry:5000
       repo: gobernate
       tags:
       - ${DRONE_BRANCH}
       - unstable
       cache: true
       insecure_registry: true
-    when:
-      event:
-        exclude:
-          - tag
 
+---
+kind: pipeline
+type: kubernetes
+name: Image Production
+
+trigger:
+  event:
+  - tag
+
+depends_on:
+- Image Staging
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
   - name: build-production
     image: docker-registry.pikube.dev:31443/drone-genuinetools-img
     settings:
-      registry: docker-registry.pikube.dev:31443
+      registry: docker-registry-service.docker-registry:5000
       repo: gobernate
       auto_tag: true
       cache: true
       insecure_registry: true
-    when:
-      event:
-        - tag
 
 ---
 kind: signature
-hmac: ca8602a5ced1b7dfdfaa2ca6ed6436923bad083bdc958f52cb1164a872e131d2
+hmac: 063ed263364115df29f474a26e5d4fe14da2fa1f949d28d0e22523828a6e404f
 
 ...
