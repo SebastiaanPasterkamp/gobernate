@@ -14,6 +14,10 @@ steps:
       - apt-get update
       - apt-get install -y git build-essential
       - go test -coverprofile cover.out ./...
+    resources:
+      limits:
+        cpu: 1000
+        memory: 500MiB
 
   - name: coverage
     image: golang:1.15-stretch
@@ -45,6 +49,10 @@ steps:
       - unstable
       cache: true
       insecure_registry: true
+    resources:
+      limits:
+        cpu: 1000
+        memory: 500MiB
 
 ---
 kind: pipeline
@@ -71,9 +79,13 @@ steps:
       auto_tag: true
       cache: true
       insecure_registry: true
+    resources:
+      limits:
+        cpu: 1000
+        memory: 500MiB
 
 ---
 kind: signature
-hmac: 063ed263364115df29f474a26e5d4fe14da2fa1f949d28d0e22523828a6e404f
+hmac: 5444db26e69fce4e756e98bae038b13532df7289841ba50a0b552b9c0ef5718f
 
 ...
