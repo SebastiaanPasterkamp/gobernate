@@ -44,9 +44,7 @@ steps:
     settings:
       registry: docker-registry-service.docker-registry:5000
       repo: gobernate
-      tags:
-      - ${DRONE_BRANCH}
-      - unstable
+      tags: ${DRONE_BRANCH},unstable
       cache: true
       insecure_registry: true
     resources:
@@ -86,6 +84,6 @@ steps:
 
 ---
 kind: signature
-hmac: 5444db26e69fce4e756e98bae038b13532df7289841ba50a0b552b9c0ef5718f
+hmac: 6a267aac752447ec51f97e4a7cde40cf895047a07c6eda44ef5820d9acd9ee28
 
 ...
