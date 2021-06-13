@@ -17,7 +17,7 @@ steps:
     resources:
       limits:
         cpu: 1000
-        memory: 500MiB
+        memory: 300MiB
 
   - name: coverage
     image: golang:1.15-stretch
@@ -52,7 +52,7 @@ steps:
     resources:
       limits:
         cpu: 1000
-        memory: 500MiB
+        memory: 300MiB
 
   - name: build staging
     image: docker-registry.pikube.dev:31443/drone-genuinetools-img
@@ -66,7 +66,7 @@ steps:
     resources:
       limits:
         cpu: 1000
-        memory: 500MiB
+        memory: 300MiB
     depends_on:
       - prepare cache
 
@@ -99,10 +99,10 @@ steps:
     resources:
       limits:
         cpu: 1000
-        memory: 500MiB
+        memory: 300MiB
 
 ---
 kind: signature
-hmac: df06d065112f02f5c5ca8de1425f81f2943de38a03ce17e44900065249d49928
+hmac: 614066354d8a2161c507172a67f939978f8d02f400e8d71d34bd533d8b65a422
 
 ...
