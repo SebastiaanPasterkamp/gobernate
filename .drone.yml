@@ -8,7 +8,7 @@ platform:
   arch: arm
 
 steps:
-  - name: unit-test
+  - name: unit test
     image: golang:1.15-stretch
     commands:
       - apt-get update
@@ -24,7 +24,7 @@ steps:
     commands:
       - go tool cover -func cover.out
     depends_on:
-      - unit-test
+      - unit test
 
 ---
 kind: pipeline
@@ -39,18 +39,36 @@ platform:
   arch: arm
 
 steps:
-  - name: build-test
+  - name: prepare cache
+    image: docker-registry.pikube.dev:31443/drone-genuinetools-img
+    settings:
+      registry: docker-registry-service.docker-registry:5000
+      repo: gobernate
+      target: builder
+      tags: cache
+      cache: true
+      cache_image: docker-registry-service.docker-registry:5000/gobernate:cache
+      insecure_registry: true
+    resources:
+      limits:
+        cpu: 1000
+        memory: 500MiB
+
+  - name: build staging
     image: docker-registry.pikube.dev:31443/drone-genuinetools-img
     settings:
       registry: docker-registry-service.docker-registry:5000
       repo: gobernate
       tags: ${DRONE_BRANCH},unstable
       cache: true
+      cache_image: docker-registry-service.docker-registry:5000/gobernate:cache
       insecure_registry: true
     resources:
       limits:
         cpu: 1000
         memory: 500MiB
+    depends_on:
+      - prepare cache
 
 ---
 kind: pipeline
@@ -69,13 +87,14 @@ platform:
   arch: arm
 
 steps:
-  - name: build-production
+  - name: build production
     image: docker-registry.pikube.dev:31443/drone-genuinetools-img
     settings:
       registry: docker-registry-service.docker-registry:5000
       repo: gobernate
       auto_tag: true
       cache: true
+      cache_image: docker-registry-service.docker-registry:5000/gobernate:cache
       insecure_registry: true
     resources:
       limits:
@@ -84,6 +103,6 @@ steps:
 
 ---
 kind: signature
-hmac: 6a267aac752447ec51f97e4a7cde40cf895047a07c6eda44ef5820d9acd9ee28
+hmac: df06d065112f02f5c5ca8de1425f81f2943de38a03ce17e44900065249d49928
 
 ...
