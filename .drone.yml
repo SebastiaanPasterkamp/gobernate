@@ -17,7 +17,7 @@ steps:
     resources:
       limits:
         cpu: 1000
-        memory: 300MiB
+        memory: 200MiB
 
   - name: coverage
     image: golang:1.15-stretch
@@ -103,6 +103,6 @@ steps:
 
 ---
 kind: signature
-hmac: 614066354d8a2161c507172a67f939978f8d02f400e8d71d34bd533d8b65a422
+hmac: 1d2006bfcd4b198bab4e13e42b742c4d05b51bf3696b2c2cbb7ac77b56982a2e
 
 ...
