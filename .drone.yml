@@ -15,7 +15,7 @@ steps:
       - apt-get install -y git build-essential
       - go test -coverprofile cover.out ./...
     resources:
-      limits:
+      requests:
         cpu: 1000
         memory: 200MiB
 
@@ -47,7 +47,7 @@ steps:
       tags: ${DRONE_BRANCH},unstable
       insecure_registry: true
     resources:
-      limits:
+      requests:
         cpu: 1000
         memory: 300MiB
 
@@ -76,12 +76,12 @@ steps:
       auto_tag: true
       insecure_registry: true
     resources:
-      limits:
+      requests:
         cpu: 1000
         memory: 300MiB
 
 ---
 kind: signature
-hmac: 471e914d748a445e5ecbfd6e96b23dc1f4e1d988e04c1cf4ab897350083e787b
+hmac: 86977609a0e2c16c8c245d10470fc7ebf69baccceb5010fb438aaa26ee50a811
 
 ...
