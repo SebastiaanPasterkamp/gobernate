@@ -105,6 +105,7 @@ steps:
   - name: discord notification
     image: appleboy/drone-discord
     settings:
+      wait: true
       webhook_id:
         from_secret: discord_id
       webhook_token:
@@ -128,6 +129,6 @@ steps:
 
 ---
 kind: signature
-hmac: 74de25d8a8aa255c5d6b62c0065e90b2a335ec1ba81a0b9ada4140cce1775852
+hmac: a636dce7b3d7aa15a605b114b6f7afc56dc90f095e882ff239d4c75cf92afb5d
 
 ...
